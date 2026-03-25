@@ -60,7 +60,7 @@ public class Playermotor : MonoBehaviour
     {
         if(canJump)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             rigidbody2D.AddForce(Vector2.up * 10 * jump, ForceMode2D.Impulse);
             canJump = false;
 
