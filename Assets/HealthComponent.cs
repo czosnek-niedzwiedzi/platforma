@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Security.Cryptography.X509Certificates;
+using TMPro;
 using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
@@ -13,12 +15,33 @@ public class HealthComponent : MonoBehaviour
 
     public delegate void OnHealthInitializedHandler(float HP);
     public event OnHealthInitializedHandler OnHealthInitialized;
+
+    public coincomponent coincomponent;
+    public TextMeshProUGUI textComponent;
     void Start()
     {
         HP = MaxHP;
         OnHealthInitialized?.Invoke(HP);
-    } 
-  
+        coincomponent.OnCoinInitialized += OnCoinInitialized;
+   
+    }
+
+    private void OnCoinInitialized(float Bank)
+    {
+        if (Bank == 3) 
+        {
+            HP += 5;
+            Debug.Log(HP);
+            if (HP > MaxHP)
+            {
+                HP = MaxHP;
+                Debug.Log(HP);
+            }
+          
+        }
+
+    }
+
     void Update()
     {  
 
@@ -55,7 +78,9 @@ public void AddHealth(float Heal)
             HP = MaxHP;
             Debug.Log(HP);
         }
-        OnHealthChange?.Invoke(HP, Heal);
-      
+        OnHealthChange?.Invoke(HP, Heal);      
     }
+
+    
+
 }

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class sike : MonoBehaviour
+public class coin : MonoBehaviour
 {
-    public float Damage = 1;
+    private float Coin = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +17,7 @@ public class sike : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Destroy(Collision.GameObject)
-        collision.GetComponent<HealthComponent>().AddDamage(Damage);
-        //Destroy(this.gameObject);
+        collision.GetComponent<coincomponent>().AddCoin(Coin);
+        Destroy(gameObject);
     }
 }

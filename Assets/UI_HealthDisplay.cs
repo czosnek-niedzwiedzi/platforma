@@ -5,13 +5,23 @@ using TMPro;
 
 public class UI_HealthDisplay : MonoBehaviour
 {
+    public coincomponent coinComponent;
     public HealthComponent healthComponent;
     public TextMeshProUGUI textComponent;
+   
     void Start()
     { 
         healthComponent.OnHealthInitialized += OnHealthInitialized;
         healthComponent.OnHealthChange += OnHealthChange;
+        coinComponent.OnCoinInitialized += OnCoinInitialized;
     }
+
+    private void OnCoinInitialized(float Bank)
+    {
+     
+    }
+
+  
 
     private void OnHealthInitialized(float HP)
     {
@@ -24,4 +34,6 @@ public class UI_HealthDisplay : MonoBehaviour
        Debug.Log (newHealth + ":" + amountChange);
        textComponent.text = newHealth.ToString();
     }
+
+    
 }
