@@ -27,7 +27,7 @@ public class coincomponent : MonoBehaviour
         Bank += Coin;
         //Debug.Log(Bank);
      
-       OnCoinInitialized?.Invoke(Coin);
+       OnCoinInitialized?.Invoke(Bank);
        
        // if (Bank == 3)
        // {
