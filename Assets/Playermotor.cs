@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
@@ -11,8 +12,10 @@ public class Playermotor : MonoBehaviour
     public float speed = 10;
     public float jump = 10;
     private bool canJump = true;
+    private bool canDash = true;
     public float maxSpeed = 10;
     public float stoppingforce = 10;
+    public float dashPower = 10;
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>(); 
@@ -41,14 +44,20 @@ public class Playermotor : MonoBehaviour
 
     private void MaxSpeedLimiting()
     {
-        if (rigidbody2D.linearVelocityX >= maxSpeed)
+        if (!canDash)
         {
-            rigidbody2D.linearVelocityX = maxSpeed;
+            return;
         }
-        else if (rigidbody2D.linearVelocityX <= -maxSpeed)
-        {
-            rigidbody2D.linearVelocityX = -maxSpeed;
-        }
+
+            if (rigidbody2D.linearVelocityX >= maxSpeed)
+            {
+                rigidbody2D.linearVelocityX = maxSpeed;
+            }
+            else if (rigidbody2D.linearVelocityX <= -maxSpeed)
+            {
+                rigidbody2D.linearVelocityX = -maxSpeed;
+            }
+        
     }
 
     private void OnMove(InputValue value)
@@ -71,6 +80,28 @@ public class Playermotor : MonoBehaviour
         canJump = true;
     }
 
-   
-       
+    private void OnDash()
+    { 
+        // Debug.Log("Dashing");
+        if (canDash)
+        {
+            if (direction.x != 0)
+            {
+                rigidbody2D.AddForce(new Vector2(direction.x * dashPower, 0), ForceMode2D.Impulse);
+            }
+            else
+            {
+              rigidbody2D.AddForce(new Vector2(direction.x * dashPower, 0), ForceMode2D.Impulse);
+            }
+            canDash = false;
+            StartCoroutine(ResetDash(1));
+            
+        }
+
+        IEnumerator ResetDash(float cooldown) 
+        {
+        yield return new WaitForSeconds(cooldown);
+            canDash = true;
+        }
+    }  
 }
