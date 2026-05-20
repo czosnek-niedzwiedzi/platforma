@@ -16,15 +16,28 @@ public class Playermotor : MonoBehaviour
     public float maxSpeed = 10;
     public float stoppingforce = 10;
     public float dashPower = 10;
+    public float skoki = 2;
+    private Animator animator;
+    private float initScale;
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>(); 
+        animator = GetComponent<Animator>();
+        initScale = transform.localScale.x;
     }
 
 
     private void FixedUpdate()
     {
-        PlayerHandelingXMovement();
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(initScale, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-initScale, transform.localScale.y, transform.localScale.z);
+        }
+            PlayerHandelingXMovement();
 
         MaxSpeedLimiting();
 
@@ -35,10 +48,16 @@ public class Playermotor : MonoBehaviour
         if (direction.x != 0)
         {
             rigidbody2D.AddForce(new Vector2(direction.x * speed, 0));
+            animator.SetBool("IsMoving", true);
         }
         else if (rigidbody2D.linearVelocityX != 0)
         {
             rigidbody2D.AddForce(new Vector2(-rigidbody2D.linearVelocityX * stoppingforce, 0));
+        }
+
+        if (direction.x == 0)
+        {
+            animator.SetBool("IsMoving", false);
         }
     }
 
@@ -71,13 +90,24 @@ public class Playermotor : MonoBehaviour
         {
             //Debug.Log("Jump");
             rigidbody2D.AddForce(Vector2.up * 10 * jump, ForceMode2D.Impulse);
-            canJump = false;
 
+            skoki--;
+
+        }
+
+        if(skoki < 1)
+        {
+            canJump = false;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        canJump = true;
+        skoki = 2;
+
+        if (skoki > 1)
+        {
+            canJump = true;
+        }
     }
 
     private void OnDash()
