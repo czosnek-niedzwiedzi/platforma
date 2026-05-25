@@ -38,9 +38,8 @@ public class Playermotor : MonoBehaviour
             transform.localScale = new Vector3(-initScale, transform.localScale.y, transform.localScale.z);
         }
             PlayerHandelingXMovement();
-
-        MaxSpeedLimiting();
-
+            MaxSpeedLimiting();
+        animator.SetFloat("SpeedY", rigidbody2D.linearVelocityY);
     }
 
     private void PlayerHandelingXMovement()
@@ -86,16 +85,19 @@ public class Playermotor : MonoBehaviour
 
     private void OnJump()
     {
+        
+       
         if(canJump)
         {
             //Debug.Log("Jump");
             rigidbody2D.AddForce(Vector2.up * 10 * jump, ForceMode2D.Impulse);
-
             skoki--;
 
         }
+     
+      
 
-        if(skoki < 1)
+        if (skoki == 0)
         {
             canJump = false;
         }
@@ -103,8 +105,9 @@ public class Playermotor : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         skoki = 2;
+       
 
-        if (skoki > 1)
+        if (skoki != 0)
         {
             canJump = true;
         }
