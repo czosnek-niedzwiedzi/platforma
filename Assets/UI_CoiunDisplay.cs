@@ -10,14 +10,10 @@ public class UI_CoiunDisplay : MonoBehaviour
     void Start()
     {
         coincomponent.OnCoinInitialized += OnCoinInitialized;
-        coincomponent.OnCoinChange += OnCoinChange;
+       
     }
 
-    private void OnCoinChange(float newBank, float amountChange)
-    {
-        //Debug.Log(newBank + ":" + amountChange);
-        textComponent.text = newBank.ToString();
-    }
+   
 
     private void OnCoinInitialized(float Bank)
     {

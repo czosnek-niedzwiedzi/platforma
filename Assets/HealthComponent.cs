@@ -3,12 +3,14 @@ using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthComponent : MonoBehaviour
 {
-    public float MaxHP = 10;
+    public float MaxHP = 3;
     private float HP;
     private bool Godmode;
+    public string sceneToLoadOnDeath;
 
     public delegate void OnHealthChangeHandler(float newHealth, float amountChange);
     public event OnHealthChangeHandler OnHealthChange;
@@ -22,30 +24,6 @@ public class HealthComponent : MonoBehaviour
     {
         HP = MaxHP;
         OnHealthInitialized?.Invoke(HP);
-        coincomponent.OnCoinInitialized += OnCoinInitialized;
-   
-    }
-
-    private void OnCoinInitialized(float Bank)
-    {
-        if (Bank == 3) 
-        {
-            HP += 5;
-            Debug.Log(HP);
-            if (HP > MaxHP)
-            {
-                HP = MaxHP;
-                Debug.Log(HP);
-            }
-          
-        }
-
-    }
-
-    void Update()
-    {  
-
-        
     }
     public void AddDamage(float damage)
     {
@@ -53,15 +31,15 @@ public class HealthComponent : MonoBehaviour
         {
             HP -= damage;
             Debug.Log(HP);
-            if (HP <= 0)
+            if (HP == 0)
             {
-                Destroy(this.gameObject);
+                SceneManager.LoadScene(sceneToLoadOnDeath);
+                Debug.Log("Kill");
             }
             OnHealthChange?.Invoke(HP, damage);
             Godmode = true;
             StartCoroutine(ResetGodMode(3));
         }
-       
     }
  IEnumerator ResetGodMode(float resetTime)
     {
@@ -80,7 +58,5 @@ public void AddHealth(float Heal)
         }
         OnHealthChange?.Invoke(HP, Heal);      
     }
-
-    
 
 }

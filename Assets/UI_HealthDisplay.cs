@@ -13,13 +13,9 @@ public class UI_HealthDisplay : MonoBehaviour
     { 
         healthComponent.OnHealthInitialized += OnHealthInitialized;
         healthComponent.OnHealthChange += OnHealthChange;
-        coinComponent.OnCoinInitialized += OnCoinInitialized;
     }
 
-    private void OnCoinInitialized(float Bank)
-    {
-     
-    }
+  
 
   
 

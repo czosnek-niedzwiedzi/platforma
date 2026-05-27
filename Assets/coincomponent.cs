@@ -4,12 +4,10 @@ public class coincomponent : MonoBehaviour
 {
     private float Bank;
 
-    public delegate void OnCoinChangeHandler(float newBank, float amountChange);
-    public event OnCoinChangeHandler OnCoinChange;
-
+  
     public delegate void OnCoinInitializedHandler(float Bank);
     public event OnCoinInitializedHandler OnCoinInitialized;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
         Bank = 0;
@@ -29,9 +27,9 @@ public class coincomponent : MonoBehaviour
      
        OnCoinInitialized?.Invoke(Bank);
        
-       // if (Bank == 3)
-       // {
-        //    Debug.Log("heal");
-        //}
+        if (Bank == 3)
+        {
+            Debug.Log("heal");
+        }
     }
 }
